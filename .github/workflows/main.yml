@@ -5,22 +5,22 @@ on:
     branches:
       - master
 
-permissions:
-  contents: read
-  actions: read
 
+          
 jobs:
-  tests:
-    name: Run tests
+  first-job:
+    name: First Job
     runs-on: ubuntu-latest
-    environment: staging
+    permissions:
+      contents: read
+      actions: read
     steps:
-      - uses: 8398a7/action-slack@v3.16.2
+      - uses: actions/checkout@v3
+      - uses: 8398a7/action-slack@v3
         with:
+          github_base_url: https://github.com/enterprises/gobugfree
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.
-          
-          
+        if: always()
